@@ -1,18 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
 using Application.Services.Interfaces;
 using Domain.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace ViewPageMVC.Controllers
 {
     public class OriginalUrlsController : Controller
     {
         private readonly IOriginalUrlService _originalUrlService;
-
-        public OriginalUrlsController(IOriginalUrlService originalUrlService)
+        private readonly UserManager<AppUser> _userManager;
+        public OriginalUrlsController(IOriginalUrlService originalUrlService, UserManager<AppUser> userManager)
         {
             _originalUrlService = originalUrlService ?? throw new ArgumentNullException(nameof(originalUrlService));
+            _userManager = userManager;
         }
 
         // GET: OriginalUrls
@@ -47,16 +48,25 @@ namespace ViewPageMVC.Controllers
 
         // POST: OriginalUrls/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FullName,UserId")] OriginalUrl originalUrl)
+        public async Task<IActionResult> Create([Bind("NameUserCreated,FullName")] OriginalUrl originalUrl)
         {
             if (ModelState.IsValid)
             {
-                await _originalUrlService.AddNewOriginalUrlsAsync(originalUrl);
-                return RedirectToAction(nameof(Index));
+                var currentUser = await _userManager.GetUserAsync(User);
+                originalUrl.NameUserCreated = currentUser.Name;
+                var success = await _originalUrlService.AddNewOriginalUrlsAsync(originalUrl);
+
+                if (success)
+                    return RedirectToAction(nameof(Index));
+                else
+                    return RedirectToAction("Error"); 
             }
+
             return View(originalUrl);
         }
+
+
+
 
         // GET: OriginalUrls/Edit/5
         public async Task<IActionResult> Edit(int? id)

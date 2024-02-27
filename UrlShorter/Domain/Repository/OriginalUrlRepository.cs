@@ -2,9 +2,7 @@
 using Domain.Models;
 using Domain.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+
 
 namespace Domain.Repository
 {
@@ -19,13 +17,11 @@ namespace Domain.Repository
 
         public async Task<bool> AddNewOriginalUrlsAsync(OriginalUrl originalUrl)
         {
-            if (originalUrl == null)
-                throw new ArgumentNullException(nameof(originalUrl));
-
             await _context.OriginalUrls.AddAsync(originalUrl);
             await _context.SaveChangesAsync();
             return true;
         }
+
 
         public async Task<bool> DeleteOriginalUrlsAsync(OriginalUrl originalUrl)
         {
