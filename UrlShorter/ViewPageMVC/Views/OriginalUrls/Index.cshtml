@@ -19,6 +19,9 @@
             <th>
                 Name User
             </th>
+            <th>
+                Id Url
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -33,7 +36,9 @@
                     @Html.DisplayFor(modelItem => item.NameUserCreated)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
