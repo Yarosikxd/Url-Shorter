@@ -17,6 +17,8 @@ namespace Domain.Repository
 
         public async Task<bool> AddNewOriginalUrlsAsync(OriginalUrl originalUrl)
         {
+           
+            originalUrl.DateCreate = DateTime.Now;
             await _context.OriginalUrls.AddAsync(originalUrl);
             await _context.SaveChangesAsync();
             return true;
@@ -32,6 +34,35 @@ namespace Domain.Repository
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<bool> GenerateShortNamesAsync()
+        {
+            try
+            {
+                var originalUrls = await _context.OriginalUrls.ToListAsync(); // Отримуємо всі посилання
+                foreach (var originalUrl in originalUrls)
+                {
+                    // Генеруємо коротке ім'я на основі повного імені (можете змінити логіку генерації за своїми потребами)
+                    originalUrl.ShortName = ReduceFullName(originalUrl.FullName);
+                }
+                await _context.SaveChangesAsync(); // Зберігаємо зміни у базі даних
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return false;
+            }
+        }
+
+        private string ReduceFullName(string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+                return string.Empty;
+
+            return fullName.Substring(0, Math.Min(fullName.Length, 6));
+        }
+
 
         public async Task<List<OriginalUrl>> GetAllOriginalUrlsAsync()
         {

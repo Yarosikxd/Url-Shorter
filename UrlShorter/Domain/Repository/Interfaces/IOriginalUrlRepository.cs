@@ -9,5 +9,6 @@ namespace Domain.Repository.Interfaces
         Task<OriginalUrl> GetOriginalUrlsByIdAsync(int id);
         Task<bool> UpdateOriginalUrlsContentAsync(OriginalUrl OriginalUrl);
         Task<bool> DeleteOriginalUrlsAsync(OriginalUrl OriginalUrl);
+        Task<bool> GenerateShortNamesAsync();
     }
 }

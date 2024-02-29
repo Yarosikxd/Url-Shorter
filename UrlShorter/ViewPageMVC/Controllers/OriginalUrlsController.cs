@@ -48,12 +48,15 @@ namespace ViewPageMVC.Controllers
 
         // POST: OriginalUrls/Create
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("NameUserCreated,FullName")] OriginalUrl originalUrl)
+        public async Task<IActionResult> Create([Bind("NameUserCreated,FullName,ShortName")] OriginalUrl originalUrl)
         {
             if (ModelState.IsValid)
             {
                 var currentUser = await _userManager.GetUserAsync(User);
                 originalUrl.NameUserCreated = currentUser.Name;
+
+                originalUrl.ShortName = GenerateShortName(originalUrl.FullName);
+
                 var success = await _originalUrlService.AddNewOriginalUrlsAsync(originalUrl);
 
                 if (success)
@@ -64,10 +67,14 @@ namespace ViewPageMVC.Controllers
 
             return View(originalUrl);
         }
+        private string GenerateShortName(string fullName)
+        {
+            // Логіка генерації короткого імені
+            if (string.IsNullOrEmpty(fullName))
+                return string.Empty;
 
-
-
-
+            return fullName.Substring(0, Math.Min(fullName.Length, 5));
+        }
         // GET: OriginalUrls/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

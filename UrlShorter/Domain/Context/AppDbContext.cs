@@ -19,6 +19,6 @@ namespace Domain.Context
                 .HasKey(ur => new { ur.UserId, ur.RoleId });
         }
         public DbSet<OriginalUrl> OriginalUrls { get; set; }
-        public DbSet<ShortUrl> ShortUrls { get; set; }
+       
     }
 }

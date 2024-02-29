@@ -14,13 +14,16 @@
     <thead>
         <tr>
             <th>
-                Full Name
+                Full Url
             </th>
             <th>
-                Name User
+                Short Url
             </th>
             <th>
-                Id Url
+                User Name
+            </th>
+            <th>
+                Date Create
             </th>
             <th></th>
         </tr>
@@ -33,10 +36,13 @@
                     @Html.DisplayFor(modelItem => item.FullName)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.ShortName)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.NameUserCreated)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Id)
+                    @Html.DisplayFor(modelItem => item.DateCreate)
                 </td>
                 <td>
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
