@@ -24,7 +24,6 @@ namespace Domain.Repository
             return true;
         }
 
-
         public async Task<bool> DeleteOriginalUrlsAsync(OriginalUrl originalUrl)
         {
             if (originalUrl == null)

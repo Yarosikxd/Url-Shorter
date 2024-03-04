@@ -1,0 +1,31 @@
+﻿@using Domain.Models
+@model IEnumerable<AppRole>
+
+<h2>Roles</h2>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Role Name</th>
+                <th>Description</th>
+                <th>Create Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var role in Model)
+            {
+                <tr>
+                    <td>@role.Name</td>
+                    <td>@role.Description</td>
+                    <td>@role.CreatedDate</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No roles found.</p>
+}
